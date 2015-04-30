@@ -48,7 +48,6 @@ var wf = {
   "T3": {
     "question": "Click the cat",
     "help": "",
-    "required": true,
     "type": "drawing",
     "tools": [
       {
@@ -61,7 +60,6 @@ var wf = {
   "T4": {
     "question": "Click the bacon",
     "help": "",
-    "required": true,
     "type": "drawing",
     "tools": [
       {

@@ -213,9 +213,6 @@ function make_drawing(parent, tn) {
     var input_group1 = $("<div>").addClass("input-group input-group-sm task").appendTo(box);
     var span1 = $("<span>").addClass("input-group-addon task-tag").html("T "+tn).appendTo(input_group1);
     var task_input = $("<input>").addClass("form-control question").attr("type","text").appendTo(input_group1);
-    var req_span = $("<span>").addClass("req").html("required: ").appendTo(box);
-    var check = $("<input>").attr("type","checkbox").addClass("required-check").appendTo(req_span);
-    $("</br>").appendTo(box);
     var ul = $("<ul>").addClass("list-unstyled").attr("id","task_"+task_number+"_answers").appendTo(box);
     var input_group2 = $("<div>").addClass("input-group input-group-sm tool-add").appendTo(box);
     var span2 = $("<span>").addClass("input-group-addon tag").html("Tool "+0).appendTo(input_group2);
@@ -277,9 +274,6 @@ function load_drawing(parent, task, name, pos) {
     make_drawing("#editor", tn);
     var box = $("#task_"+tn);
     box.find(".question").val(task["question"]);
-    if (task["required"]) {
-        box.find(".required-check").prop("checked", true);
-    }
     box_ans = box.find(".tool-input");
     box_type = box.find(".type-select");
     box_color = box.find(".color-select");
