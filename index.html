@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="./css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="./css/jquery-ui.css">
+    <link type="text/css" rel="stylesheet" href="./css/jsplumb.css">
+    <link type="text/css" rel="stylesheet" href="./css/style.css">
+    <script src="./js/jquery-1.11.2.min.js"></script>
+    <script src="./js/jquery-ui.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/jquery.jsPlumb-1.7.5-min.js"></script>
+  </head>
+  <body>
+    
+    <div class="container-fluid" id="body_container">
+      
+      <div class="row">
+        <div class="col-md-3" style="margin-top: 15px;">
+          <div class="input-group">
+            <span class="input-group-addon">
+              Add task
+            </span>
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" id="add_question">Question (single)</button>
+              <button class="btn btn-default" type="button" id="add_question_multi">Question (multiple)</button>
+              <button class="btn btn-default" type="button" id="add_drawing">Drawing</button>
+            </span>
+          </div>
+        </div>
+        
+        <div class="col-md-12" id="editor"></div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2">
+          <button class="btn btn-default" type="button" id="get_workflow">Show workflow</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <pre id="my_workflow">
+          </pre>
+        </div>
+        <div class="col-md-6">
+          <pre id="my_workflow_pos">
+          </pre>
+        </div>
+      </div>
+
+    </div>
+      
+    <script src="./js/workflow_edit.js"></script>
+  </body>
+</html>
