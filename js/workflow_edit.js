@@ -48,6 +48,22 @@ var commonT = {
     }
 }
 
+function popover_buttons() {
+    var button = $(this);
+    var pop = button.data("bs.popover").tip();
+    var box = button.parent();
+    var help_text = box.find(".help-text");
+    var textarea = pop.find("textarea");
+    textarea.val(help_text.html());
+    pop.find("#save").click(function() {
+        help_text.html(textarea.val());
+        button.popover("toggle");
+    });
+    pop.find("#close").click(function() {
+        button.popover("toggle");
+    });
+}
+
 function make_question(parent, tn) {
     var box = $("<div>").addClass("box question-box").attr("id","task_"+tn).appendTo(parent);
     box.resizable({handles: 'e, w'});
@@ -57,6 +73,17 @@ function make_question(parent, tn) {
     var span1 = $("<span>").addClass("input-group-addon task-tag").html("T "+tn).appendTo(input_group1);
     var task_input = $("<input>").addClass("form-control question").attr("type","text").appendTo(input_group1);
     //var task_input = $("<textarea>").addClass("form-control question").attr("rows","1").appendTo(input_group1);
+    var help_button = $("<button>").addClass("btn btn-default btn-xs add-help").attr("type", "button").html("Help Text").appendTo(box);
+    help_button.popover({
+        html: true,
+        placement: "bottom",
+        container: "body",
+        content: function() {
+            return  $("#help_popover").html();
+        },
+        title: "Help Text"
+    }).on("shown.bs.popover", popover_buttons);
+    var help_text = $("<div>").addClass("help-text").css("display","none").appendTo(box);
     var req_span = $("<span>").addClass("req").html("required: ").appendTo(box);
     var check = $("<input>").attr("type","checkbox").addClass("required-check").appendTo(req_span);
     $("</br>").appendTo(box);
@@ -98,6 +125,7 @@ function load_question(parent, task, name, pos) {
     make_question("#editor", tn);
     var box = $("#task_"+tn);
     box.find(".question").val(task["question"]);
+    box.find(".help-text").html(task["help"]);
     if (task["required"]) {
         box.find(".required-check").prop("checked", true);
     }
@@ -219,6 +247,17 @@ function make_drawing(parent, tn) {
     var input_group1 = $("<div>").addClass("input-group input-group-sm task").appendTo(box);
     var span1 = $("<span>").addClass("input-group-addon task-tag").html("T "+tn).appendTo(input_group1);
     var task_input = $("<input>").addClass("form-control question").attr("type","text").appendTo(input_group1);
+    var help_button = $("<button>").addClass("btn btn-default btn-xs add-help").attr("type", "button").html("Help Text").appendTo(box);
+    help_button.popover({
+        html: true,
+        placement: "bottom",
+        container: "body",
+        content: function() {
+            return  $("#help_popover").html();
+        },
+        title: "Help Text"
+    }).on("shown.bs.popover", popover_buttons);
+    var help_text = $("<div>").addClass("help-text").css("display","none").appendTo(box);
     var ul = $("<ul>").addClass("list-unstyled").attr("id","task_"+task_number+"_answers").appendTo(box);
     var input_group2 = $("<div>").addClass("input-group input-group-sm tool-add").appendTo(box);
     var span2 = $("<span>").addClass("input-group-addon tag").html("Tool "+0).appendTo(input_group2);
@@ -280,6 +319,7 @@ function load_drawing(parent, task, name, pos) {
     make_drawing("#editor", tn);
     var box = $("#task_"+tn);
     box.find(".question").val(task["question"]);
+    box.find(".help-text").html(task["help"]);
     box_ans = box.find(".tool-input");
     box_type = box.find(".type-select");
     box_color = box.find(".color-select");
@@ -374,7 +414,7 @@ function get_workflow() {
         }
         var t = {
             "question": $(i).find(".question").val(),
-            "help": "",
+            "help": $(i).find(".help-text").html(),
         }
         var req = $(i).find(".required-check").prop("checked");
         if (req) {
@@ -510,6 +550,17 @@ function make_question_multi(parent, tn) {
     var input_group1 = $("<div>").addClass("input-group input-group-sm task").appendTo(box);
     var span1 = $("<span>").addClass("input-group-addon task-tag").html("T "+tn).appendTo(input_group1);
     var task_input = $("<input>").addClass("form-control question").attr("type","text").appendTo(input_group1);
+    var help_button = $("<button>").addClass("btn btn-default btn-xs add-help").attr("type", "button").html("Help Text").appendTo(box);
+    help_button.popover({
+        html: true,
+        placement: "bottom",
+        container: "body",
+        content: function() {
+            return  $("#help_popover").html();
+        },
+        title: "Help Text"
+    }).on("shown.bs.popover", popover_buttons);
+    var help_text = $("<div>").addClass("help-text").css("display","none").appendTo(box);
     var req_span = $("<span>").addClass("req").html("required: ").appendTo(box);
     var check = $("<input>").attr("type","checkbox").addClass("required-check").appendTo(req_span);
     $("</br>").appendTo(box);
@@ -550,6 +601,7 @@ function load_question_multi(parent, task, name, pos) {
     make_question_multi("#editor", tn);
     var box = $("#task_"+tn);
     box.find(".question").val(task["question"]);
+    box.find(".help-text").html(task["help"]);
     if (task["required"]) {
         box.find(".required-check").prop("checked", true);
     }

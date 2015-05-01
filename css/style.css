@@ -11,7 +11,7 @@
 
 .box,
 .box-end {
-    min-width: 150px;
+    min-width: 180px;
     max-width: 400px;
     width: 200px;
     background-color: #ccc;
@@ -93,4 +93,8 @@
     margin-right: 5%;
     margin-bottom: 10px;
     width: 45%;
+}
+
+.add-help {
+    margin-left: 10px;
 }
