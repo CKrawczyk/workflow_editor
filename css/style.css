@@ -52,6 +52,11 @@
     padding: 10px;
 }
 
+.add-answer,
+.add-tool {
+    height: 54px;
+}
+
 .tool-add {
     padding: 10px;
 }
@@ -97,4 +102,24 @@
 
 .add-help {
     margin-left: 10px;
+    margin-bottom: 5px;
 }
+
+
+.lab {
+    padding: 0px;
+    margin: 0px;
+    padding-left: 15px;
+    background-color: rgba(255,255,255,.5);
+    border: none
+}
+/*
+.close-div {
+    display: table-cell;
+    overflow: hidden;
+    width: auto;
+}
+
+.answer-tag {
+    display: table-cell;
+}*/

@@ -69,10 +69,10 @@ function make_question(parent, tn) {
     box.resizable({handles: 'e, w'});
     var head = $("<span>").html("Single").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
-    var input_group1 = $("<div>").addClass("input-group input-group-sm task").appendTo(box);
+    var input_group1 = $("<div>").addClass("input-group task").appendTo(box);
     var span1 = $("<span>").addClass("input-group-addon task-tag").html("T "+tn).appendTo(input_group1);
-    var task_input = $("<input>").addClass("form-control question").attr("type","text").appendTo(input_group1);
-    //var task_input = $("<textarea>").addClass("form-control question").attr("rows","1").appendTo(input_group1);
+    //var task_input = $("<input>").addClass("form-control question").attr("type","text").appendTo(input_group1);
+    var task_input = $("<textarea>").addClass("form-control question").attr("rows","2").css("resize","none").appendTo(input_group1);
     var help_button = $("<button>").addClass("btn btn-default btn-xs add-help").attr("type", "button").html("Help Text").appendTo(box);
     help_button.popover({
         html: true,
@@ -88,10 +88,10 @@ function make_question(parent, tn) {
     var check = $("<input>").attr("type","checkbox").addClass("required-check").appendTo(req_span);
     $("</br>").appendTo(box);
     var ul = $("<ul>").addClass("list-unstyled").attr("id","task_"+task_number+"_answers").appendTo(box);
-    var input_group2 = $("<div>").addClass("input-group input-group-sm answer-add").appendTo(box);
+    var input_group2 = $("<div>").addClass("input-group answer-add").appendTo(box);
     var span2 = $("<span>").addClass("input-group-addon tag").html("A "+0).appendTo(input_group2);
-    var answer_input = $("<input>").addClass("form-control answer-input").attr("type","text").appendTo(input_group2);
-    //var task_input = $("<textarea>").addClass("form-control answer-input").attr("rows","1").appendTo(input_group2);
+    //var answer_input = $("<input>").addClass("form-control answer-input").attr("type","text").appendTo(input_group2);
+    var answer_input = $("<textarea>").addClass("form-control answer-input").attr("rows","2").css("resize","none").appendTo(input_group2);
     var span3 = $("<span>").addClass("input-group-btn").appendTo(input_group2);
     var add_answer = $("<button>").addClass("btn btn-default add-answer").attr("type","button").attr("onclick","add_answer(this)").html("+").appendTo(span3);
     jsPlumb.draggable("task_"+tn, {scroll: true, stack: ".box"});
@@ -109,8 +109,8 @@ function add_answer(element) {
         var task = me.parent().parent().parent().attr("id");
         var list = me.parent().parent().parent().find("ul");
         var li = $("<li>").addClass("answer-item").attr("id",task+"_answer_"+tag_split).html(tag.html()+": ").appendTo(list);
-        var ans= $("<span>").addClass("lab").html(answer.val()).appendTo(li);
-        var close = $('<a onclick="remove_answer(this);" class="close">&times;</a>').appendTo(li);
+        var close = $('<a onclick="remove_answer(this);" class="close close-ans">&times;</a>').appendTo(li);
+        var ans= $("<pre>").addClass("lab").html(answer.val()).appendTo(li);
         me.parent().parent().parent().height(height+li.height());
         var num = parseInt(tag_split) + 1;
         answer.val("");
@@ -244,9 +244,10 @@ function make_drawing(parent, tn) {
     box.resizable({handles: 'e, w'});
     var head = $("<span>").html("Drawing").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
-    var input_group1 = $("<div>").addClass("input-group input-group-sm task").appendTo(box);
+    var input_group1 = $("<div>").addClass("input-group task").appendTo(box);
     var span1 = $("<span>").addClass("input-group-addon task-tag").html("T "+tn).appendTo(input_group1);
-    var task_input = $("<input>").addClass("form-control question").attr("type","text").appendTo(input_group1);
+    //var task_input = $("<input>").addClass("form-control question").attr("type","text").appendTo(input_group1);
+    var task_input = $("<textarea>").addClass("form-control question").attr("rows","2").css("resize","none").appendTo(input_group1);
     var help_button = $("<button>").addClass("btn btn-default btn-xs add-help").attr("type", "button").html("Help Text").appendTo(box);
     help_button.popover({
         html: true,
@@ -259,9 +260,10 @@ function make_drawing(parent, tn) {
     }).on("shown.bs.popover", popover_buttons);
     var help_text = $("<div>").addClass("help-text").css("display","none").appendTo(box);
     var ul = $("<ul>").addClass("list-unstyled").attr("id","task_"+task_number+"_answers").appendTo(box);
-    var input_group2 = $("<div>").addClass("input-group input-group-sm tool-add").appendTo(box);
+    var input_group2 = $("<div>").addClass("input-group tool-add").appendTo(box);
     var span2 = $("<span>").addClass("input-group-addon tag").html("Tool "+0).appendTo(input_group2);
-    var answer_input = $("<input>").addClass("form-control tool-input").attr("type","text").appendTo(input_group2);
+    //var answer_input = $("<input>").addClass("form-control tool-input").attr("type","text").appendTo(input_group2);
+    var answer_input = $("<textarea>").addClass("form-control tool-input").attr("rows","2").css("resize","none").appendTo(input_group2);
     var span3 = $("<span>").addClass("input-group-btn").appendTo(input_group2);
     var add_answer = $("<button>").addClass("btn btn-default add-tool").attr("type","button").attr("onclick","add_tool(this)").html("+").appendTo(span3);
     var type_select = $("<select>").addClass("type-select").appendTo(box);
@@ -289,27 +291,25 @@ function make_drawing(parent, tn) {
 
 function add_tool(element) {
     var me = $(element);
-    var answer = me.parent().parent().find("input");
+    var answer = me.parent().parent().find(".tool-input");
     if (answer.val()) {
         var type_sel = me.parent().parent().parent().find(".type-select");
         var color_sel = me.parent().parent().parent().find(".color-select");
         var tag = me.parent().parent().find(".tag");
         var tag_split = tag.html().split(" ")[1]
         var height = me.parent().parent().parent().height();
-        me.parent().parent().parent().height(height+20);
         var task = me.parent().parent().parent().attr("id");
         var list = me.parent().parent().parent().find("ul");
         var li = $("<li>").addClass("answer-item").attr("id",task+"_tool_"+tag_split).html(tag.html()+": ").appendTo(list);
-        var label1 = $("<span>").addClass("lab").html(answer.val()).appendTo(li);
-        li.append(", ")
+        var close = $('<a onclick="remove_tool(this);" class="close">&times;</a>').appendTo(li);
         var label2 = $("<span>").addClass("draw-type").html(type_sel.val()).appendTo(li);
         li.append(", ")
         var label3 = $("<span>").addClass("draw-color").html(color_sel.val()).appendTo(li);
-        var close = $('<a onclick="remove_tool(this);" class="close">&times;</a>').appendTo(li);
+        var label1 = $("<pre>").addClass("lab").html(answer.val()).appendTo(li);        
         var num = parseInt(tag_split) + 1;
+        me.parent().parent().parent().height(height+li.height());
         answer.val("");
         tag.html("Tool "+num);
-        //jsPlumb.addEndpoint(task+"_tool_"+tag_split, commonA, {uuid: task+"_tool_"+tag_split});
     }
 }
 
@@ -547,9 +547,10 @@ function make_question_multi(parent, tn) {
     box.resizable({handles: 'e, w'});
     var head = $("<span>").html("Multiple").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
-    var input_group1 = $("<div>").addClass("input-group input-group-sm task").appendTo(box);
+    var input_group1 = $("<div>").addClass("input-group task").appendTo(box);
     var span1 = $("<span>").addClass("input-group-addon task-tag").html("T "+tn).appendTo(input_group1);
-    var task_input = $("<input>").addClass("form-control question").attr("type","text").appendTo(input_group1);
+    //var task_input = $("<input>").addClass("form-control question").attr("type","text").appendTo(input_group1);
+    var task_input = $("<textarea>").addClass("form-control question").attr("rows","2").css("resize","none").appendTo(input_group1);
     var help_button = $("<button>").addClass("btn btn-default btn-xs add-help").attr("type", "button").html("Help Text").appendTo(box);
     help_button.popover({
         html: true,
@@ -565,9 +566,10 @@ function make_question_multi(parent, tn) {
     var check = $("<input>").attr("type","checkbox").addClass("required-check").appendTo(req_span);
     $("</br>").appendTo(box);
     var ul = $("<ul>").addClass("list-unstyled").attr("id","task_"+task_number+"_answers").appendTo(box);
-    var input_group2 = $("<div>").addClass("input-group input-group-sm answer-add").appendTo(box);
+    var input_group2 = $("<div>").addClass("input-group answer-add").appendTo(box);
     var span2 = $("<span>").addClass("input-group-addon tag").html("A "+0).appendTo(input_group2);
-    var answer_input = $("<input>").addClass("form-control answer-input").attr("type","text").appendTo(input_group2);
+    //var answer_input = $("<input>").addClass("form-control answer-input").attr("type","text").appendTo(input_group2);
+    var answer_input = $("<textarea>").addClass("form-control answer-input").attr("rows","2").css("resize","none").appendTo(input_group2);
     var span3 = $("<span>").addClass("input-group-btn").appendTo(input_group2);
     var add_answer = $("<button>").addClass("btn btn-default add-answer").attr("type","button").attr("onclick","add_answer_multi(this)").html("+").appendTo(span3);
     jsPlumb.draggable("task_"+tn, {scroll: true, stack: ".box"});
@@ -578,7 +580,7 @@ function make_question_multi(parent, tn) {
 
 function add_answer_multi(element) {
     var me = $(element);
-    var answer = me.parent().parent().find("input");
+    var answer = me.parent().parent().find(".answer-input");
     if (answer.val()) {
         var tag = me.parent().parent().find(".tag");
         var tag_split = tag.html().split(" ")[1]
@@ -586,8 +588,8 @@ function add_answer_multi(element) {
         var task = me.parent().parent().parent().attr("id");
         var list = me.parent().parent().parent().find("ul");
         var li = $("<li>").addClass("answer-item").attr("id",task+"_answer_"+tag_split).html(tag.html()+": ").appendTo(list);
-        var ans= $("<span>").addClass("lab").html(answer.val()).appendTo(li);
         var close = $('<a onclick="remove_answer_multi(this);" class="close">&times;</a>').appendTo(li);
+        var ans= $("<pre>").addClass("lab").html(answer.val()).appendTo(li);
         me.parent().parent().parent().height(height+li.height());
         var num = parseInt(tag_split) + 1;
         answer.val("");
