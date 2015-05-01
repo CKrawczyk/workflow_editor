@@ -75,3 +75,10 @@
 .close-box {
     margin-right: 10px;
 }
+
+.box-head {
+    color: #000;
+    opacity: 0.5;
+    float: left;
+    margin-left: 10px;
+}

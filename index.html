@@ -33,8 +33,30 @@
       </div>
 
       <div class="row">
+        <div class="col-md-12">
+          <h3>How to use:</h3>
+          <ul>
+            <li>Add a new task by clicking one of the three buttons at the top of the page</li>
+            <li>Move the task node by clicking and dragging anywhere you want (page auto scrolls)</li>
+            <li>Enter the task's question into the top text box of the task node</li>
+            <li>Add answers/tools to the task by entering them into the bottom text box and clicking the "+"</li>
+            <li>Connect the tasks/answers with the next task by clicking and dragging the black dot to the right of the task/answer to the black dot on the left of the next task</li>
+            <li>Remvoe tasks/answers/tools by clicking the "x"</li>
+            <li>Click "Show workflow" to show the Panoptes JSON for the workflow (The positions of each taks node on the page are also shown)</li>
+            <li>Click "Load example 1" or "Load example 2" to see example workflows (make sure to click "clear" or refresh the page before loading an example)</li>
+          </ul>
+        </div>
         <div class="col-md-2">
           <button class="btn btn-default" type="button" id="get_workflow">Show workflow</button>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-default" type="button" id="get_example1">Load example 1</button>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-default" type="button" id="get_example2">Load example 2</button>
+        </div>
+        <div class="col-md-2">
+          <input class="btn btn-default" type="button" onClick="history.go(0)" value="Clear">
         </div>
       </div>
       <div class="row">

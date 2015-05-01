@@ -50,6 +50,7 @@ var commonT = {
 
 function make_question(parent, tn) {
     var box = $("<div>").addClass("box question-box").attr("id","task_"+tn).appendTo(parent);
+    var head = $("<span>").html("Single").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
     var input_group1 = $("<div>").addClass("input-group input-group-sm task").appendTo(box);
     var span1 = $("<span>").addClass("input-group-addon task-tag").html("T "+tn).appendTo(input_group1);
@@ -209,6 +210,7 @@ function make_end(parent) {
 
 function make_drawing(parent, tn) {
     var box = $("<div>").addClass("box drawing-box").attr("id","task_"+tn).appendTo(parent);
+    var head = $("<span>").html("Drawing").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
     var input_group1 = $("<div>").addClass("input-group input-group-sm task").appendTo(box);
     var span1 = $("<span>").addClass("input-group-addon task-tag").html("T "+tn).appendTo(input_group1);
@@ -339,6 +341,14 @@ $('#add_drawing').click(function() {
 window.onresize = function(event) {
     jsPlumb.repaintEverything();
 }
+
+$("#get_example1").click(function() {
+    $.getScript("./js/test_workflow_load_gz.js");
+});
+
+$("#get_example2").click(function() {
+    $.getScript("./js/test_workflow_load.js");
+});
 
 $(document).ready(function() {
     make_start("#editor");
@@ -489,6 +499,7 @@ function load_workflow(wf,pos) {
 
 function make_question_multi(parent, tn) {
     var box = $("<div>").addClass("box multi-box").attr("id","task_"+tn).appendTo(parent);
+    var head = $("<span>").html("Multiple").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
     var input_group1 = $("<div>").addClass("input-group input-group-sm task").appendTo(box);
     var span1 = $("<span>").addClass("input-group-addon task-tag").html("T "+tn).appendTo(input_group1);
