@@ -368,6 +368,7 @@ function get_workflow() {
         var source = jsPlumb.getConnections({target: id});
         var source_id = "";
         var current_pos = $(i).position();
+        current_pos["width"] = $(i).width();
         if (source.length>0) {
             source_id = source[0].sourceId;
         }
