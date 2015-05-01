@@ -50,11 +50,13 @@ var commonT = {
 
 function make_question(parent, tn) {
     var box = $("<div>").addClass("box question-box").attr("id","task_"+tn).appendTo(parent);
+    box.resizable({handles: 'e, w'});
     var head = $("<span>").html("Single").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
     var input_group1 = $("<div>").addClass("input-group input-group-sm task").appendTo(box);
     var span1 = $("<span>").addClass("input-group-addon task-tag").html("T "+tn).appendTo(input_group1);
     var task_input = $("<input>").addClass("form-control question").attr("type","text").appendTo(input_group1);
+    //var task_input = $("<textarea>").addClass("form-control question").attr("rows","1").appendTo(input_group1);
     var req_span = $("<span>").addClass("req").html("required: ").appendTo(box);
     var check = $("<input>").attr("type","checkbox").addClass("required-check").appendTo(req_span);
     $("</br>").appendTo(box);
@@ -62,6 +64,7 @@ function make_question(parent, tn) {
     var input_group2 = $("<div>").addClass("input-group input-group-sm answer-add").appendTo(box);
     var span2 = $("<span>").addClass("input-group-addon tag").html("A "+0).appendTo(input_group2);
     var answer_input = $("<input>").addClass("form-control answer-input").attr("type","text").appendTo(input_group2);
+    //var task_input = $("<textarea>").addClass("form-control answer-input").attr("rows","1").appendTo(input_group2);
     var span3 = $("<span>").addClass("input-group-btn").appendTo(input_group2);
     var add_answer = $("<button>").addClass("btn btn-default add-answer").attr("type","button").attr("onclick","add_answer(this)").html("+").appendTo(span3);
     jsPlumb.draggable("task_"+tn, {scroll: true, stack: ".box"});
@@ -71,7 +74,7 @@ function make_question(parent, tn) {
 
 function add_answer(element) {
     var me = $(element);
-    var answer = me.parent().parent().find("input");
+    var answer = me.parent().parent().find(".answer-input");
     if (answer.val()) {
         var tag = me.parent().parent().find(".tag");
         var tag_split = tag.html().split(" ")[1]
@@ -210,6 +213,7 @@ function make_end(parent) {
 
 function make_drawing(parent, tn) {
     var box = $("<div>").addClass("box drawing-box").attr("id","task_"+tn).appendTo(parent);
+    box.resizable({handles: 'e, w'});
     var head = $("<span>").html("Drawing").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
     var input_group1 = $("<div>").addClass("input-group input-group-sm task").appendTo(box);
@@ -221,14 +225,14 @@ function make_drawing(parent, tn) {
     var answer_input = $("<input>").addClass("form-control tool-input").attr("type","text").appendTo(input_group2);
     var span3 = $("<span>").addClass("input-group-btn").appendTo(input_group2);
     var add_answer = $("<button>").addClass("btn btn-default add-tool").attr("type","button").attr("onclick","add_tool(this)").html("+").appendTo(span3);
-    var type_select = $("<select>").css({"margin-left": "10px","margin-bottom":"10px", "width":"115px"}).addClass("type-select").appendTo(box);
+    var type_select = $("<select>").addClass("type-select").appendTo(box);
     $("<option>").html("point").attr("value","point").appendTo(type_select);
     $("<option>").html("line").attr("value","line").appendTo(type_select);
     $("<option>").html("polygon").attr("value","polygon").appendTo(type_select);
     $("<option>").html("rectangle").attr("value","rectangle").appendTo(type_select);
     $("<option>").html("circle").attr("value","circle").appendTo(type_select);
     $("<option>").html("ellipse").attr("value","ellipse").appendTo(type_select);
-    var color_select = $("<select>").css({"width":"115px"}).addClass("color-select").appendTo(box);
+    var color_select = $("<select>").addClass("color-select").appendTo(box);
     $("<option>").html("red").attr("value","red").appendTo(color_select);
     $("<option>").html("yellow").attr("value","yellow").appendTo(color_select);
     $("<option>").html("green").attr("value","green").appendTo(color_select);
@@ -499,6 +503,7 @@ function load_workflow(wf,pos) {
 
 function make_question_multi(parent, tn) {
     var box = $("<div>").addClass("box multi-box").attr("id","task_"+tn).appendTo(parent);
+    box.resizable({handles: 'e, w'});
     var head = $("<span>").html("Multiple").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
     var input_group1 = $("<div>").addClass("input-group input-group-sm task").appendTo(box);

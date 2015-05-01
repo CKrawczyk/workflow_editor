@@ -82,3 +82,15 @@
     float: left;
     margin-left: 10px;
 }
+
+.type-select {
+    margin-left: 5%;
+    margin-bottom: 10px;
+    width: 45%;
+}
+
+.color-select {
+    margin-right: 5%;
+    margin-bottom: 10px;
+    width: 45%;
+}
