@@ -118,5 +118,5 @@ textarea.form-control {
 }
 
 ._jsPlumb_connector {
-    z-index: 0;
+    z-index: -1;
 }
