@@ -65,7 +65,7 @@ function popover_buttons() {
 }
 
 function make_question(parent, tn) {
-    var box = $("<div>").addClass("box question-box").attr("id","task_"+tn).appendTo(parent);
+    var box = $("<div>").addClass("box question-box").attr("id","task_"+tn).css("z-index",tn).appendTo(parent);
     box.resizable({ handles: 'e, w' });
     var head = $("<span>").html("Single").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
@@ -263,7 +263,7 @@ function make_end(parent) {
 }
 
 function make_drawing(parent, tn) {
-    var box = $("<div>").addClass("box drawing-box").attr("id","task_"+tn).appendTo(parent);
+    var box = $("<div>").addClass("box drawing-box").attr("id","task_"+tn).css("z-index",tn).appendTo(parent);
     box.resizable({handles: 'e, w'});
     var head = $("<span>").html("Drawing").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
@@ -581,7 +581,7 @@ function load_workflow(wf,pos) {
 
 
 function make_question_multi(parent, tn) {
-    var box = $("<div>").addClass("box multi-box").attr("id","task_"+tn).appendTo(parent);
+    var box = $("<div>").addClass("box multi-box").css("z-index",tn).attr("id","task_"+tn).appendTo(parent);
     box.resizable({handles: 'e, w'});
     var head = $("<span>").html("Multiple").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
