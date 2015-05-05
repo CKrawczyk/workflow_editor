@@ -397,11 +397,15 @@ function get_workflow() {
     var tasks = {};
     var pos = {};
     var boxes = $(".box")
+    var scroll_top = $("#editor").scrollTop();
+    var scroll_left = $("#editor").scrollLeft();
     boxes.each(function(idx,i) {
         var id = i.id;
         var source = jsPlumb.getConnections({target: id});
         var source_id = "";
         var current_pos = $(i).position();
+        current_pos["top"] += scroll_top;
+        current_pos["left"] += scroll_left;
         current_pos["width"] = $(i).width();
         if (source.length>0) {
             source_id = source[0].sourceId;
