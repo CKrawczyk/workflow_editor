@@ -66,7 +66,7 @@ function popover_buttons() {
 
 function make_question(parent, tn) {
     var box = $("<div>").addClass("box question-box").attr("id","task_"+tn).appendTo(parent);
-    box.resizable({handles: 'e, w'});
+    box.resizable({ handles: 'e, w' });
     var head = $("<span>").html("Single").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
     var input_group1 = $("<div>").addClass("input-group task").appendTo(box);
@@ -94,8 +94,8 @@ function make_question(parent, tn) {
     var answer_input = $("<textarea>").addClass("form-control answer-input").attr("rows","2").css("resize","none").appendTo(input_group2);
     var span3 = $("<span>").addClass("input-group-btn").appendTo(input_group2);
     var add_answer = $("<button>").addClass("btn btn-default add-answer").attr("type","button").attr("onclick","add_answer(this)").html("+").appendTo(span3);
-    jsPlumb.draggable("task_"+tn, {scroll: true, stack: ".box"});
     jsPlumb.addEndpoint("task_"+tn, commonT, {uuid: "task_"+tn});
+    jsPlumb.draggable("task_"+tn, {scroll: true, stack: ".box"});
     return box;
 }
 
@@ -158,7 +158,6 @@ function remove_answer(element) {
     div.height(height-li_height);
     jsPlumb.removeAllEndpoints(li);
     li.remove();
-    //jsPlumb.remove(li);
     lis.each(function(idx,i) {
         var me = $(i)
         var current = me.html().split(":");
@@ -168,15 +167,10 @@ function remove_answer(element) {
         var id_new = id.split("_");
         id_new[3] = number+"";
         id_new = id_new.join("_")
-        // jsPlumb.setId does not work correctly with draggable divs
-        // workaround is to remove all endpoins from the div
-        // change the id of the div and add a new endpoint
-        // TODO: keep current connections
-        jsPlumb.removeAllEndpoints(me);
-        me.attr("id",id_new);
-        jsPlumb.addEndpoint(id_new, commonA, {uuid: id_new});
+        jsPlumb.setId(id,id_new);
         number += 1;
     });
+    jsPlumb.repaintEverything();
     div.find(".tag").html("A "+number);
 }
 
