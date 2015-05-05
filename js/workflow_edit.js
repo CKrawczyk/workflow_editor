@@ -94,8 +94,19 @@ function make_question(parent, tn) {
     var answer_input = $("<textarea>").addClass("form-control answer-input").attr("rows","2").css("resize","none").appendTo(input_group2);
     var span3 = $("<span>").addClass("input-group-btn").appendTo(input_group2);
     var add_answer = $("<button>").addClass("btn btn-default add-answer").attr("type","button").attr("onclick","add_answer(this)").html("+").appendTo(span3);
-    jsPlumb.addEndpoint("task_"+tn, commonT, {uuid: "task_"+tn});
-    jsPlumb.draggable("task_"+tn, {scroll: true, stack: ".box"});
+    var ep = jsPlumb.addEndpoint("task_"+tn, commonT, {uuid: "task_"+tn});
+    $(ep.canvas).css("z-index", box.css("z-index"));
+    jsPlumb.draggable("task_"+tn, {
+        scroll: true,
+        stack: ".box",
+        start: function() {
+            var box_z_index = $(this).css("z-index");
+            $(jsPlumb.getEndpoints(this.id)[0].canvas).css("z-index",box_z_index);
+            $(this).find("li").each(function(idx,i) {
+                $(jsPlumb.getEndpoints(i.id)[0].canvas).css("z-index",box_z_index);
+            });
+        }
+    });
     return box;
 }
 
@@ -115,7 +126,9 @@ function add_answer(element) {
         var num = parseInt(tag_split) + 1;
         answer.val("");
         tag.html("A "+num);
-        jsPlumb.addEndpoint(task+"_answer_"+tag_split, commonA, {uuid: task+"_answer_"+tag_split});
+        var ep = jsPlumb.addEndpoint(task+"_answer_"+tag_split, commonA, {uuid: task+"_answer_"+tag_split});
+        var box_z_index = me.parent().parent().parent().css("z-index");
+        $(ep.canvas).css("z-index",box_z_index);
     }
 };
 
@@ -222,15 +235,31 @@ function remove_box(element) {
 function make_start(parent) {
     var box = $("<div>").addClass("box-end").attr("id","start").html("Start").appendTo(parent);
     box.css({top: "50%", left: "0%"})
-    jsPlumb.draggable("start", {scroll: true, stack: ".box"});
-    jsPlumb.addEndpoint("start", commonA, {uuid: "start"});
+    jsPlumb.draggable("start", {
+        scroll: true,
+        stack: ".box",
+        start: function() {
+            var box_z_index = $(this).css("z-index");
+            $(jsPlumb.getEndpoints(this.id)[0].canvas).css("z-index",box_z_index);
+        }
+    });
+    var ep = jsPlumb.addEndpoint("start", commonA, {uuid: "start"});
+    $(ep.canvas).css("z-index", box.css("z-index"));
 }
 
 function make_end(parent) {
     var box = $("<div>").addClass("box-end").attr("id","end").html("End").appendTo(parent);
     box.css({top: "50%", left: "90%"})
-    jsPlumb.draggable("end", {scroll: true, stack: ".box"});
-    jsPlumb.addEndpoint("end", commonT, {uuid: "end"});
+    jsPlumb.draggable("end", {
+        scroll: true,
+        stack: ".box",
+        start: function() {
+            var box_z_index = $(this).css("z-index");
+            $(jsPlumb.getEndpoints(this.id)[0].canvas).css("z-index",box_z_index);
+        }
+    });
+    var ep = jsPlumb.addEndpoint("end", commonT, {uuid: "end"});
+    $(ep.canvas).css("z-index", box.css("z-index"));
 }
 
 function make_drawing(parent, tn) {
@@ -277,9 +306,20 @@ function make_drawing(parent, tn) {
     $("<option>").html("black").attr("value","black").appendTo(color_select);
     $("<option>").html("white").attr("value","white").appendTo(color_select);
     box.width(250);
-    jsPlumb.draggable("task_"+tn, {scroll: true, stack: ".box"});
-    jsPlumb.addEndpoint("task_"+tn, commonT, {uuid: "task_"+tn});
-    jsPlumb.addEndpoint("task_"+tn, commonA, {uuid: "task_"+tn+"_next"});
+    var ep1 = jsPlumb.addEndpoint("task_"+tn, commonT, {uuid: "task_"+tn});
+    var ep2 = jsPlumb.addEndpoint("task_"+tn, commonA, {uuid: "task_"+tn+"_next"});
+    $(ep1.canvas).css("z-index", box.css("z-index"));
+    $(ep2.canvas).css("z-index", box.css("z-index"));
+    jsPlumb.draggable("task_"+tn, {
+        scroll: true,
+        stack: ".box",
+        start: function() {
+            var box_z_index = $(this).css("z-index");
+            $.each(jsPlumb.getEndpoints(this.id), function(idx, i) {
+                $(i.canvas).css("z-index",box_z_index);
+            })
+        }
+    });
     return box;
 }
 
@@ -570,9 +610,20 @@ function make_question_multi(parent, tn) {
     var answer_input = $("<textarea>").addClass("form-control answer-input").attr("rows","2").css("resize","none").appendTo(input_group2);
     var span3 = $("<span>").addClass("input-group-btn").appendTo(input_group2);
     var add_answer = $("<button>").addClass("btn btn-default add-answer").attr("type","button").attr("onclick","add_answer_multi(this)").html("+").appendTo(span3);
-    jsPlumb.draggable("task_"+tn, {scroll: true, stack: ".box"});
-    jsPlumb.addEndpoint("task_"+tn, commonT, {uuid: "task_"+tn});
-    jsPlumb.addEndpoint("task_"+tn, commonA, {uuid: "task_"+tn+"_next"});
+    var ep1 = jsPlumb.addEndpoint("task_"+tn, commonT, {uuid: "task_"+tn});
+    var ep2 = jsPlumb.addEndpoint("task_"+tn, commonA, {uuid: "task_"+tn+"_next"});
+    $(ep1.canvas).css("z-index", box.css("z-index"));
+    $(ep2.canvas).css("z-index", box.css("z-index"));
+    jsPlumb.draggable("task_"+tn, {
+        scroll: true,
+        stack: ".box",
+        start: function() {
+            var box_z_index = $(this).css("z-index");
+            $.each(jsPlumb.getEndpoints(this.id), function(idx, i) {
+                $(i.canvas).css("z-index",box_z_index);
+            })
+        }
+    });
     return box;
 }
 
