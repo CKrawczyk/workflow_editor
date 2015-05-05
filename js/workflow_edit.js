@@ -97,7 +97,7 @@ function make_question(parent, tn) {
     jsPlumb.draggable("task_"+tn, {
         scroll: true,
         stack: ".box",
-        start: function() {
+        drag: function() {
             var box_z_index = $(this).css("z-index");
             $(jsPlumb.getEndpoints(this.id)[0].canvas).css("z-index",box_z_index);
             $(this).find("li").each(function(idx,i) {
@@ -339,7 +339,7 @@ function make_drawing(parent, tn) {
             var box_z_index = $(this).css("z-index");
             $.each(jsPlumb.getEndpoints(this.id), function(idx, i) {
                 $(i.canvas).css("z-index",box_z_index);
-            })
+            });
         }
     });
     return box;
@@ -671,11 +671,11 @@ function make_question_multi(parent, tn) {
     jsPlumb.draggable("task_"+tn, {
         scroll: true,
         stack: ".box",
-        start: function() {
+        drag: function() {
             var box_z_index = $(this).css("z-index");
             $.each(jsPlumb.getEndpoints(this.id), function(idx, i) {
                 $(i.canvas).css("z-index",box_z_index);
-            })
+            });
         }
     });
     return box;
