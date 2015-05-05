@@ -120,3 +120,17 @@ textarea.form-control {
 ._jsPlumb_connector {
     z-index: -1;
 }
+
+.close {
+    line-height: 0.65;
+}
+
+.edit-icon {
+    float: right;
+    opacity: 0.3;
+}
+
+.edit-icon:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
