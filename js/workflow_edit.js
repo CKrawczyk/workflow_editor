@@ -22,9 +22,9 @@ var connectorPaintStyle = {
 }
 
 var commonA = {
-    //connector: [ "Flowchart", { stub: 30, cornerRadius: 10, alwaysRespectStubs: false, midpoint: 0.25 } ],
+    connector: [ "Flowchart", { stub: 30, cornerRadius: 5, alwaysRespectStubs: false, midpoint: 0.5 } ],
     //connector: ["Straight"],
-    connectior: ["Bezier", { curviness: 150 }],
+    //connectior: ["Bezier", { curviness: 150 }],
     //connectior: ["State Machine"],
     anchor: "Right",
     isSource: true,
@@ -44,6 +44,8 @@ var commonT = {
     endpoint: "Dot",
     maxConnections: -1,
     hoverPaintStyle: endpointHoverStyle,
+    connectorHoverStyle: connectorHoverStyle,
+    dropOptions: { hoverClass: "hover", activeClass: "active" },
     paintStyle: {
         fillStyle: "#000",
         radius: 7
@@ -116,7 +118,7 @@ function edit_tool_popover_buttons() {
 // -------- Make a question (single) task ----------
 function make_question(parent, tn) {
     // Create the basic div to hold the question
-    var box = $("<div>").addClass("box question-box").attr("id","task_"+tn).css("z-index",tn).appendTo(parent);
+    var box = $("<div>").addClass("box question-box").attr("id","task_"+tn).css("z-index",tn+1).appendTo(parent);
     box.resizable({ handles: 'e, w' });
     var head = $("<span>").html("Single").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
@@ -254,7 +256,7 @@ function load_question(parent, task, name, pos) {
 // -------- Make a question (multiple) task ----------
 function make_question_multi(parent, tn) {
     // Create the basic div to hold the question
-    var box = $("<div>").addClass("box multi-box").css("z-index",tn).attr("id","task_"+tn).appendTo(parent);
+    var box = $("<div>").addClass("box multi-box").css("z-index",tn+1).attr("id","task_"+tn).appendTo(parent);
     box.resizable({handles: 'e, w'});
     var head = $("<span>").html("Multiple").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
@@ -387,7 +389,7 @@ function load_question_multi(parent, task, name, pos) {
 // -------- Make a drawing task ----------
 function make_drawing(parent, tn) {
     // function to add basic drawing div
-    var box = $("<div>").addClass("box drawing-box").attr("id","task_"+tn).css("z-index",tn).appendTo(parent);
+    var box = $("<div>").addClass("box drawing-box").attr("id","task_"+tn).css("z-index",tn+1).appendTo(parent);
     box.resizable({handles: 'e, w'});
     var head = $("<span>").html("Drawing").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
@@ -624,6 +626,7 @@ function get_workflow() {
     var boxes = $(".box")
     var scroll_top = $("#editor").scrollTop();
     var scroll_left = $("#editor").scrollLeft();
+    console.log(scroll_left);
     boxes.each(function(idx,i) {
         var id = i.id;
         var source = jsPlumb.getConnections({target: id});
@@ -705,7 +708,11 @@ function get_workflow() {
         }
     });
     pos["start"] = $("#start").position();
+    pos["start"]["top"] += scroll_top;
+    pos["start"]["left"] += scroll_left;
     pos["end"] = $("#end").position();
+    pos["end"]["top"] += scroll_top;
+    pos["end"]["left"] += scroll_left;
     return [tasks, pos];
 }
 

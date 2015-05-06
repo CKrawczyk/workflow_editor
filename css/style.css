@@ -118,7 +118,7 @@ textarea.form-control {
 }
 
 ._jsPlumb_connector {
-    z-index: -1;
+    z-index: 0;
 }
 
 .close {
@@ -132,5 +132,9 @@ textarea.form-control {
 
 .edit-icon:hover {
     opacity: 0.5;
+    cursor: pointer;
+}
+
+path, ._jsPlumb_endpoint {
     cursor: pointer;
 }
