@@ -1,4 +1,4 @@
-var wf ={
+var wf = {
   "init": {
     "question": "Is the galaxy smooth or does it have a disk?",
     "help": "",

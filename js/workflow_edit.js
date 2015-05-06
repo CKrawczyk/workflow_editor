@@ -713,13 +713,22 @@ function load_workflow(wf,pos) {
     // Load workfrow (and positions) from JSON
     var all_connections = []
     var default_pos = {"top": 194, "left": 139};
+    var K = Object.keys(wf);
     $.each(wf, function(idx, i) {
         if (idx==="init") {
-            idx="T0";
+            // First node might not be T0
+            // find the first unused task number to use as name
+            var t=0;
+            var tmp = "T"+t;
+            while (K.indexOf(tmp)>-1) {
+                t+=1;
+                tmp = "T"+t;
+            }
+            idx=tmp;
             if (pos) {
                 pos[idx] = pos["init"]
             }
-            all_connections.push(["start", "task_0"]);
+            all_connections.push(["start", "task_"+t]);
         }
         if (i["type"]==="single") {
             if (pos) {
