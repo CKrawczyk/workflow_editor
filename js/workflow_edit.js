@@ -144,7 +144,7 @@ function make_question(parent, tn) {
     var span2 = $("<span>").addClass("input-group-addon tag").html("A "+0).appendTo(input_group2);
     var answer_input = $("<textarea>").addClass("form-control answer-input").attr("rows","2").css("resize","none").appendTo(input_group2);
     var span3 = $("<span>").addClass("input-group-btn").appendTo(input_group2);
-    var add_answer = $("<button>").addClass("btn btn-default add-answer").attr("type","button").attr("onclick","add_answer(this)").html("+").appendTo(span3);
+    var add_answer_button = $("<button>").addClass("btn btn-default add-answer").attr("type","button").click(add_answer).html("+").appendTo(span3);
     var ep = jsPlumb.addEndpoint("task_"+tn, commonT, {uuid: "task_"+tn});
     $(ep.canvas).css("z-index", box.css("z-index"));
     jsPlumb.draggable("task_"+tn, {
@@ -163,7 +163,7 @@ function make_question(parent, tn) {
 
 function add_answer(element) {
     // function to add an answer to the div
-    var me = $(element);
+    var me = $(element.currentTarget);
     var answer = me.parent().parent().find(".answer-input");
     if (answer.val()) {
         var tag = me.parent().parent().find(".tag");
@@ -172,7 +172,7 @@ function add_answer(element) {
         var task = me.parent().parent().parent().attr("id");
         var list = me.parent().parent().parent().find("ul");
         var li = $("<li>").addClass("answer-item").attr("id",task+"_answer_"+tag_split).html(tag.html()+": ").appendTo(list);
-        var close = $('<a onclick="remove_answer(this);" class="close close-ans">&times;</a>').appendTo(li);
+        var close = $('<a onclick="remove_answer_multi(this);" class="close">&times;</a>').appendTo(li);
         var edit = $("<span>").addClass("glyphicon glyphicon-cog edit-icon").appendTo(li);
         edit.popover({
             html: true,
@@ -196,7 +196,7 @@ function add_answer(element) {
 
 function remove_answer(element) {
     // function to remove an answer from the div
-    var li = $(element).parent();
+    var li = $(element.currentTarget).parent();
     var div = li.parent().parent();
     var height = div.height();
     var li_height = li.height();
@@ -282,7 +282,8 @@ function make_question_multi(parent, tn) {
     var span2 = $("<span>").addClass("input-group-addon tag").html("A "+0).appendTo(input_group2);
     var answer_input = $("<textarea>").addClass("form-control answer-input").attr("rows","2").css("resize","none").appendTo(input_group2);
     var span3 = $("<span>").addClass("input-group-btn").appendTo(input_group2);
-    var add_answer = $("<button>").addClass("btn btn-default add-answer").attr("type","button").attr("onclick","add_answer_multi(this)").html("+").appendTo(span3);
+    //var add_answer = $("<button>").addClass("btn btn-default add-answer").attr("type","button").attr("onclick","add_answer_multi(this)").html("+").appendTo(span3);
+    var add_answer_button = $("<button>").addClass("btn btn-default add-answer").attr("type","button").click(add_answer_multi).html("+").appendTo(span3);
     var ep1 = jsPlumb.addEndpoint("task_"+tn, commonT, {uuid: "task_"+tn});
     var ep2 = jsPlumb.addEndpoint("task_"+tn, commonA, {uuid: "task_"+tn+"_next"});
     $(ep1.canvas).css("z-index", box.css("z-index"));
@@ -302,7 +303,7 @@ function make_question_multi(parent, tn) {
 
 function add_answer_multi(element) {
     // function to add an answer to the div
-    var me = $(element);
+    var me = $(element.currentTarget);
     var answer = me.parent().parent().find(".answer-input");
     if (answer.val()) {
         var tag = me.parent().parent().find(".tag");
@@ -412,7 +413,7 @@ function make_drawing(parent, tn) {
     var span2 = $("<span>").addClass("input-group-addon tag").html("Tool "+0).appendTo(input_group2);
     var answer_input = $("<textarea>").addClass("form-control tool-input").attr("rows","2").css("resize","none").appendTo(input_group2);
     var span3 = $("<span>").addClass("input-group-btn").appendTo(input_group2);
-    var add_answer = $("<button>").addClass("btn btn-default add-tool").attr("type","button").attr("onclick","add_tool(this)").html("+").appendTo(span3);
+    var add_tool_button = $("<button>").addClass("btn btn-default add-tool").attr("type","button").click(add_tool).html("+").appendTo(span3);
     var type_select = $("<select>").addClass("type-select").appendTo(box);
     $("<option>").html("point").attr("value","point").appendTo(type_select);
     $("<option>").html("line").attr("value","line").appendTo(type_select);
@@ -449,7 +450,7 @@ function make_drawing(parent, tn) {
 
 function add_tool(element) {
     // function to add a tool to the div
-    var me = $(element);
+    var me = $(element.currentTarget);
     var answer = me.parent().parent().find(".tool-input");
     if (answer.val()) {
         var type_sel = me.parent().parent().parent().find(".type-select");
