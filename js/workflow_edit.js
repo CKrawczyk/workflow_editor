@@ -172,7 +172,7 @@ function add_answer(element) {
         var task = me.parent().parent().parent().attr("id");
         var list = me.parent().parent().parent().find("ul");
         var li = $("<li>").addClass("answer-item").attr("id",task+"_answer_"+tag_split).html(tag.html()+": ").appendTo(list);
-        var close = $('<a onclick="remove_answer_multi(this);" class="close">&times;</a>').appendTo(li);
+        var close = $('<a onclick="remove_answer(this);" class="close">&times;</a>').appendTo(li);
         var edit = $("<span>").addClass("glyphicon glyphicon-cog edit-icon").appendTo(li);
         edit.popover({
             html: true,
@@ -196,7 +196,7 @@ function add_answer(element) {
 
 function remove_answer(element) {
     // function to remove an answer from the div
-    var li = $(element.currentTarget).parent();
+    var li = $(element).parent();
     var div = li.parent().parent();
     var height = div.height();
     var li_height = li.height();
@@ -206,6 +206,7 @@ function remove_answer(element) {
     div.height(height-li_height);
     jsPlumb.removeAllEndpoints(li);
     li.remove();
+    //jsPlumb.remove(li);
     lis.each(function(idx,i) {
         var me = $(i)
         var current = me.html().split(":");
@@ -218,7 +219,7 @@ function remove_answer(element) {
         jsPlumb.setId(id,id_new);
         number += 1;
     });
-    jsPlumb.repaintEverything();
+    //jsPlumb.repaintEverything();
     div.find(".tag").html("A "+number);
 }
 
