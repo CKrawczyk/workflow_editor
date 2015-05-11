@@ -7,11 +7,11 @@ var connectorHoverStyle = {
     strokeStyle: "#888",
     outlineWidth: 1.5,
     outlineColor: "white"
-}
+};
 
 var endpointHoverStyle = {
-    fillStyle: "#888",
-}
+    fillStyle: "#888"
+};
 
 var connectorPaintStyle = {
     lineWidth: 3,
@@ -19,7 +19,7 @@ var connectorPaintStyle = {
     joinstyle: "round",
     outlineColor: "white",
     outlineWidth: 1.5
-}
+};
 
 var commonA = {
     connector: [ "Flowchart", { stub: 30, cornerRadius: 5, alwaysRespectStubs: false, midpoint: 0.5 } ],
@@ -36,7 +36,7 @@ var commonA = {
         fillStyle: "#000",
         radius: 5
     }
-}
+};
 
 var commonT = {
     anchor: "Left",
@@ -50,7 +50,7 @@ var commonT = {
         fillStyle: "#000",
         radius: 7
     }
-}
+};
 // -------- end ----------
 
 // -------- popover functions --------
@@ -96,10 +96,10 @@ function edit_tool_popover_buttons() {
     var answer_text = li.find(".lab");
     var textarea = pop.find("textarea");
     textarea.val(answer_text.html());
-    var draw_type = li.find(".draw-type")
+    var draw_type = li.find(".draw-type");
     var type_select = pop.find(".type-select2");
     type_select.val(draw_type.html());
-    var draw_color = li.find(".draw-color")
+    var draw_color = li.find(".draw-color");
     var color_select = pop.find(".color-select2");
     color_select.val(draw_color.html());
     pop.find("#save").click(function() {
@@ -119,7 +119,7 @@ function edit_tool_popover_buttons() {
 function make_question(parent, tn) {
     // Create the basic div to hold the question
     var box = $("<div>").addClass("box question-box").attr("id","task_"+tn).css("z-index",tn+1).appendTo(parent);
-    box.resizable({ handles: 'e, w' });
+    box.resizable({handles: 'e, w'});
     var head = $("<span>").html("Single").addClass("box-head").appendTo(box);
     var close = $('<a onclick="remove_box(this);" class="close close-box">&times;</a></br>').appendTo(box);
     var input_group1 = $("<div>").addClass("input-group task").appendTo(box);
@@ -167,11 +167,12 @@ function add_answer(element) {
     var answer = me.parent().parent().find(".answer-input");
     if (answer.val()) {
         var tag = me.parent().parent().find(".tag");
-        var tag_split = tag.html().split(" ")[1]
+        var tag_split = tag.html().split(" ")[1];
         var height = me.parent().parent().parent().height();
         var task = me.parent().parent().parent().attr("id");
         var list = me.parent().parent().parent().find("ul");
-        var li = $("<li>").addClass("answer-item").attr("id",task+"_answer_"+tag_split).html(tag.html()+": ").appendTo(list);
+        var li_id = task+"_answer_"+tag_split;
+        var li = $("<li>").addClass("answer-item").attr("id",li_id).html(tag.html()+": ").appendTo(list);
         var close = $('<a onclick="remove_answer(this);" class="close">&times;</a>').appendTo(li);
         var edit = $("<span>").addClass("glyphicon glyphicon-cog edit-icon").appendTo(li);
         edit.popover({
@@ -185,14 +186,22 @@ function add_answer(element) {
         }).on("shown.bs.popover", edit_popover_buttons);
         var ans= $("<pre>").addClass("lab").html(answer.val()).appendTo(li);
         me.parent().parent().parent().height(height+li.height());
-        var num = parseInt(tag_split) + 1;
+        var num = parseInt(tag_split,10) + 1;
         answer.val("");
         tag.html("A "+num);
-        var ep = jsPlumb.addEndpoint(task+"_answer_"+tag_split, commonA, {uuid: task+"_answer_"+tag_split});
+        var uuid = li_id;
+        while (jsPlumb.getEndpoint(uuid)) {
+            // an endpoint with this uuid already exists
+            // find a unique uuid value to use
+            var uuid_sp = uuid.split("_");
+            uuid_sp[3]= parseInt(uuid_sp[3],10)+1+"";
+            uuid = uuid_sp.join("_");
+        }
+        var ep = jsPlumb.addEndpoint(li_id, commonA, {uuid: uuid});
         var box_z_index = me.parent().parent().parent().css("z-index");
         $(ep.canvas).css("z-index",box_z_index);
     }
-};
+}
 
 function remove_answer(element) {
     // function to remove an answer from the div
@@ -201,25 +210,24 @@ function remove_answer(element) {
     var height = div.height();
     var li_height = li.height();
     var item = li.html();
-    var number = parseInt(item.split(":")[0].split(" ")[1]);
+    var number = parseInt(item.split(":")[0].split(" ")[1],10);
     var lis = li.nextAll();
     div.height(height-li_height);
     jsPlumb.removeAllEndpoints(li);
     li.remove();
     //jsPlumb.remove(li);
     lis.each(function(idx,i) {
-        var me = $(i)
+        var me = $(i);
         var current = me.html().split(":");
         current[0] = "A "+number;
         me.html(current.join(":"));
         var id = me.attr("id");
         var id_new = id.split("_");
         id_new[3] = number+"";
-        id_new = id_new.join("_")
+        id_new = id_new.join("_");
         jsPlumb.setId(id,id_new);
         number += 1;
     });
-    //jsPlumb.repaintEverything();
     div.find(".tag").html("A "+number);
 }
 
@@ -246,7 +254,7 @@ function load_question(parent, task, name, pos) {
             connections.push([box.find("li").last().prop("id"), "end"]);
         }
     });
-    task_number = parseInt(tn) + 1;
+    task_number = parseInt(tn,10) + 1;
     box.css(pos);
     jsPlumb.repaintEverything();
     return connections;
@@ -308,7 +316,7 @@ function add_answer_multi(element) {
     var answer = me.parent().parent().find(".answer-input");
     if (answer.val()) {
         var tag = me.parent().parent().find(".tag");
-        var tag_split = tag.html().split(" ")[1]
+        var tag_split = tag.html().split(" ")[1];
         var height = me.parent().parent().parent().height();
         var task = me.parent().parent().parent().attr("id");
         var list = me.parent().parent().parent().find("ul");
@@ -326,11 +334,11 @@ function add_answer_multi(element) {
         }).on("shown.bs.popover", edit_popover_buttons);
         var ans= $("<pre>").addClass("lab").html(answer.val()).appendTo(li);
         me.parent().parent().parent().height(height+li.height());
-        var num = parseInt(tag_split) + 1;
+        var num = parseInt(tag_split,10) + 1;
         answer.val("");
         tag.html("A "+num);
     }
-};
+}
 
 function remove_answer_multi(element) {
     // function to remove an answer from the div
@@ -339,19 +347,19 @@ function remove_answer_multi(element) {
     var height = div.height();
     var li_height = li.height();
     var item = li.html();
-    var number = parseInt(item.split(":")[0].split(" ")[1]);
+    var number = parseInt(item.split(":")[0].split(" ")[1],10);
     var lis = li.nextAll();
     div.height(height-li_height);
     li.remove();
     lis.each(function(idx,i) {
-        var me = $(i)
+        var me = $(i);
         var current = me.html().split(":");
         current[0] = "A "+number;
         me.html(current.join(":"));
         var id = me.attr("id");
         var id_new = id.split("_");
         id_new[3] = number+"";
-        id_new = id_new.join("_")
+        id_new = id_new.join("_");
         me.attr("id",id_new);
         number += 1;
     });
@@ -381,7 +389,7 @@ function load_question_multi(parent, task, name, pos) {
         box_ans.val(i["label"]);
         box_add.click();
     });
-    task_number = parseInt(tn) + 1;
+    task_number = parseInt(tn,10) + 1;
     box.css(pos);
     jsPlumb.repaintEverything();
     return connections;
@@ -457,7 +465,7 @@ function add_tool(element) {
         var type_sel = me.parent().parent().parent().find(".type-select");
         var color_sel = me.parent().parent().parent().find(".color-select");
         var tag = me.parent().parent().find(".tag");
-        var tag_split = tag.html().split(" ")[1]
+        var tag_split = tag.html().split(" ")[1];
         var height = me.parent().parent().parent().height();
         var task = me.parent().parent().parent().attr("id");
         var list = me.parent().parent().parent().find("ul");
@@ -474,10 +482,10 @@ function add_tool(element) {
             title: "Edit answer"
         }).on("shown.bs.popover", edit_tool_popover_buttons);
         var label2 = $("<span>").addClass("draw-type").html(type_sel.val()).appendTo(li);
-        li.append(", ")
+        li.append(", ");
         var label3 = $("<span>").addClass("draw-color").html(color_sel.val()).appendTo(li);
         var label1 = $("<pre>").addClass("lab").html(answer.val()).appendTo(li);        
-        var num = parseInt(tag_split) + 1;
+        var num = parseInt(tag_split,10) + 1;
         me.parent().parent().parent().height(height+li.height());
         answer.val("");
         tag.html("Tool "+num);
@@ -491,19 +499,19 @@ function remove_tool(element) {
     var height = div.height();
     var li_height = li.height();
     var item = li.html();
-    var number = parseInt(item.split(":")[0].split(" ")[1]);
+    var number = parseInt(item.split(":")[0].split(" ")[1],10);
     var lis = li.nextAll();
     div.height(height-li_height);
     li.remove();
     lis.each(function(idx,i) {
-        var me = $(i)
+        var me = $(i);
         var current = me.html().split(":");
         current[0] = "Tool "+number;
         me.html(current.join(":"));
         var id = me.attr("id");
         var id_new = id.split("_");
         id_new[3] = number+"";
-        id_new = id_new.join("_")
+        id_new = id_new.join("_");
         me.attr("id",id_new);
         number += 1;
     });
@@ -534,7 +542,7 @@ function load_drawing(parent, task, name, pos) {
         box_color.val(i["color"]);
         box_add.click();
     });
-    task_number = parseInt(tn) + 1;
+    task_number = parseInt(tn,10) + 1;
     box.css(pos);
     jsPlumb.repaintEverything();
     return connections;
@@ -545,7 +553,7 @@ function load_drawing(parent, task, name, pos) {
 function make_start(parent) {
     // Make start node div
     var box = $("<div>").addClass("box-end").attr("id","start").html("Start").appendTo(parent);
-    box.css({top: "50%", left: "0%"})
+    box.css({top: "50%", left: "0%"});
     jsPlumb.draggable("start", {
         scroll: true,
         stack: ".box",
@@ -561,7 +569,7 @@ function make_start(parent) {
 function make_end(parent) {
     // Make end node div
     var box = $("<div>").addClass("box-end").attr("id","end").html("End").appendTo(parent);
-    box.css({top: "50%", left: "90%"})
+    box.css({top: "50%", left: "90%"});
     jsPlumb.draggable("end", {
         scroll: true,
         stack: ".box",
@@ -579,7 +587,7 @@ function make_end(parent) {
 function remove_box(element) {
     var box = $(element).parent();
     var boxes = box.nextAll(".box");
-    var number = parseInt(box.find(".task-tag").html().split(" ")[1]);
+    var number = parseInt(box.find(".task-tag").html().split(" ")[1],10);
     jsPlumb.empty(box.attr("id")+"_answers");
     jsPlumb.removeAllEndpoints(box);
     box.remove();
@@ -625,7 +633,7 @@ function get_workflow() {
     // Save a wrokflow (and node positions) to JOSN
     var tasks = {};
     var pos = {};
-    var boxes = $(".box")
+    var boxes = $(".box");
     var scroll_top = $("#editor").scrollTop();
     var scroll_left = $("#editor").scrollLeft();
     console.log(scroll_left);
@@ -642,8 +650,8 @@ function get_workflow() {
         }
         var t = {
             "question": $(i).find(".question").val(),
-            "help": $(i).find(".help-text").html(),
-        }
+            "help": $(i).find(".help-text").html()
+        };
         var req = $(i).find(".required-check").prop("checked");
         if (req) {
             t["required"] = true;
@@ -655,9 +663,9 @@ function get_workflow() {
                 var jd = j.id;
                 var q = {"label": $(j).find(".lab").html()};
                 var next = jsPlumb.getConnections({source: jd});
-                var next_id = ""
+                var next_id = "";
                 if (next.length>0) {
-                    var next_id = next[0].targetId;
+                    next_id = next[0].targetId;
                     if (next_id!="end") {
                         q["next"] = "T"+next_id.split("_")[1];
                     }
@@ -696,8 +704,8 @@ function get_workflow() {
                 }
             }
             $(i).find("li").each(function(jdx,j) {
-                var q = {"label": $(j).find(".lab").html()}
-                answers.push(q)
+                var q = {"label": $(j).find(".lab").html()};
+                answers.push(q);
             });
             t["answers"] = answers;
         }
@@ -720,7 +728,7 @@ function get_workflow() {
 
 function load_workflow(wf,pos) {
     // Load workfrow (and positions) from JSON
-    var all_connections = []
+    var all_connections = [];
     var default_pos = {"top": 194, "left": 139};
     var K = Object.keys(wf);
     $.each(wf, function(idx, i) {
@@ -735,7 +743,7 @@ function load_workflow(wf,pos) {
             }
             idx=tmp;
             if (pos) {
-                pos[idx] = pos["init"]
+                pos[idx] = pos["init"];
             }
             all_connections.push(["start", "task_"+t]);
         }
@@ -812,10 +820,10 @@ $('#get_workflow').click(function() {
 // -------- Window resize and ready callback ----------
 window.onresize = function(event) {
     jsPlumb.repaintEverything();
-}
+};
 
 $(document).ready(function() {
     make_start("#editor");
     make_end("#editor");
-})
+});
 // -------- end ----------
